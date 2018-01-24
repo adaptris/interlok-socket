@@ -1,4 +1,4 @@
-# interlok-socket [![GitHub tag](https://img.shields.io/github/tag/adaptris/interlok-socket.svg)](https://github.com/adaptris/interlok-socket/tags)
+# interlok-socket [![GitHub tag](https://img.shields.io/github/tag/adaptris/interlok-socket.svg)](https://github.com/adaptris/interlok-socket/tags) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0488ef500fc240a3bd5a8842948fb993)](https://www.codacy.com/app/adaptris/interlok-socket?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adaptris/interlok-socket&amp;utm_campaign=Badge_Grade)
 The suggested projectname was literate-waffle...
 
 As part of the 3.7.0 release, we decided to the "roll your own protocol that works over TCP sockets" into its own package. It has a very limited use-case and doesn't really deserve to live in Interlok proper.
