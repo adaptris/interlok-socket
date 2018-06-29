@@ -6,17 +6,17 @@ As part of the 3.7.0 release, we decided to the "roll your own protocol that wor
 So here it is, if you were looking for it, then you can still depend on it via gradle/ivy/maven as usual.
 
 ```
-compile ("com.adaptris:interlok-socket:3.7-SNAPSHOT") { changing= true}
+compile ("com.adaptris:interlok-socket:3.8-SNAPSHOT") { changing= true}
 ```
 
 ```
-<dependency org="com.adaptris" name="interlok-socket" rev="3.7-SNAPSHOT" conf="runtime->default" changing="true"/>
+<dependency org="com.adaptris" name="interlok-socket" rev="3.8-SNAPSHOT" conf="runtime->default" changing="true"/>
 ```
 
 ```
 <dependency>
   <groupId>com.adaptris</groupId>
   <artifactId>interlok-socket</artifactId>
-  <version>3.7-SNAPSHOT</version>
+  <version>3.8-SNAPSHOT</version>
 </dependency>
 ```
