@@ -162,9 +162,11 @@ publishing {
       artifact examplesJar { classifier "examples" }
 
       pom.withXml {
+        asNode().appendNode("name", componentName)
         asNode().appendNode("description", "Roll your own protocol over vanilla TCP sockets")
         def properties = asNode().appendNode("properties")
         properties.appendNode("target", "3.6.6+")
+        properties.appendNode("tags", "socket,tcp")
       }
     }
   }
