@@ -34,8 +34,8 @@ public class TestSocketProducer extends ProducerCase {
    */
   public static final String BASE_DIR_KEY = "SocketProducerExamples.baseDir";
 
-  public TestSocketProducer(String name) {
-    super(name);
+  public TestSocketProducer() {
+    super();
     if (PROPERTIES.getProperty(BASE_DIR_KEY) != null) {
       setBaseDir(PROPERTIES.getProperty(BASE_DIR_KEY));
     }
@@ -55,5 +55,10 @@ public class TestSocketProducer extends ProducerCase {
   @Override
   public String getExampleCommentHeader(Object o) {
     return super.getExampleCommentHeader(o) + "\n<!--" + "\n-->";
+  }
+
+  @Override
+  public boolean isAnnotatedForJunit4() {
+    return true;
   }
 }
