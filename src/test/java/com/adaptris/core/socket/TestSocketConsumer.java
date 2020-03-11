@@ -18,7 +18,8 @@ package com.adaptris.core.socket;
 
 import static com.adaptris.core.PortManager.nextUnusedPort;
 import static com.adaptris.core.PortManager.release;
-
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 import com.adaptris.core.AdaptrisMessage;
 import com.adaptris.core.ConfiguredConsumeDestination;
 import com.adaptris.core.ConfiguredProduceDestination;
@@ -26,10 +27,6 @@ import com.adaptris.core.ConsumerCase;
 import com.adaptris.core.DefaultMessageFactory;
 import com.adaptris.core.StandaloneConsumer;
 import com.adaptris.core.StandaloneProducer;
-import com.adaptris.core.socket.SocketConsumer;
-import com.adaptris.core.socket.SocketProducer;
-import com.adaptris.core.socket.TcpConsumeConnection;
-import com.adaptris.core.socket.TcpProduceConnection;
 import com.adaptris.core.stubs.MockMessageListener;
 
 /**
@@ -48,8 +45,8 @@ public class TestSocketConsumer extends ConsumerCase {
    */
   private static final String PAYLOAD = "The quick brown fox jumps over the lazy dog.";
 
-  public TestSocketConsumer(String s) {
-    super(s);
+  public TestSocketConsumer() {
+    super();
     if (PROPERTIES.getProperty(BASE_DIR_KEY) != null) {
       setBaseDir(PROPERTIES.getProperty(BASE_DIR_KEY));
     }
@@ -70,6 +67,7 @@ public class TestSocketConsumer extends ConsumerCase {
     return super.getExampleCommentHeader(o) + "\n<!--" + "\n-->";
   }
 
+  @Test
   public void testBasicSendReciver() throws Exception {
     Integer port = nextUnusedPort(19000);
     MockMessageListener stub = new MockMessageListener();
@@ -101,6 +99,12 @@ public class TestSocketConsumer extends ConsumerCase {
     producer.setDestination(ccd);
     producer.setProtocolImplementation(SimpleProtocol.class.getName());
     return new StandaloneProducer(new TcpProduceConnection(), producer);
+  }
+
+
+  @Override
+  public boolean isAnnotatedForJunit4() {
+    return true;
   }
 
 }
