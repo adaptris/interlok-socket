@@ -1,12 +1,12 @@
 /*
  * Copyright 2015 Adaptris Ltd.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package com.adaptris.core.socket;
 
 import static com.adaptris.core.AdaptrisMessageFactory.defaultIfNull;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -26,29 +25,34 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.hibernate.validator.constraints.NotBlank;
-
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import com.adaptris.annotation.AdapterComponent;
 import com.adaptris.annotation.AdvancedConfig;
 import com.adaptris.annotation.ComponentProfile;
 import com.adaptris.annotation.DisplayOrder;
 import com.adaptris.annotation.InputFieldDefault;
+import com.adaptris.annotation.Removal;
 import com.adaptris.core.AdaptrisMessage;
 import com.adaptris.core.AdaptrisMessageConsumerImp;
 import com.adaptris.core.AdaptrisMessageListener;
 import com.adaptris.core.ClosedState;
+import com.adaptris.core.ConsumeDestination;
 import com.adaptris.core.CoreConstants;
 import com.adaptris.core.CoreException;
+import com.adaptris.core.util.DestinationHelper;
+import com.adaptris.core.util.LoggingHelper;
 import com.adaptris.core.util.ManagedThreadFactory;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Consumer for the generic Socket Adapter.
- * 
+ *
  * @config socket-consumer
- * 
- * 
+ *
+ *
  */
 @XStreamAlias("socket-consumer")
 @AdapterComponent
@@ -65,6 +69,18 @@ public class SocketConsumer extends AdaptrisMessageConsumerImp {
   private transient Thread listenThread;
   @AdvancedConfig
   private int socketTimeout;
+  /**
+   * The consume destination has no meaning for a socket consumer
+   *
+   */
+  @Getter
+  @Setter
+  @Deprecated
+  @Valid
+  @Removal(version = "4.0.0", message = "Has no meaning and will be removed")
+  private ConsumeDestination destination;
+
+  private transient boolean destinationWarningLogged = false;
   private transient ManagedThreadFactory threadFactory = new ManagedThreadFactory();
 
   public SocketConsumer() {
@@ -82,6 +98,9 @@ public class SocketConsumer extends AdaptrisMessageConsumerImp {
 
   @Override
   public void prepare() throws CoreException {
+    DestinationHelper.logConsumeDestinationWarning(destinationWarningLogged,
+        () -> destinationWarningLogged = true, getDestination(),
+        "{} uses destination; just remove it", LoggingHelper.friendlyName(this));
   }
 
   /**
@@ -169,7 +188,7 @@ public class SocketConsumer extends AdaptrisMessageConsumerImp {
 
   /**
    * Get the immediate reply flag.
-   * 
+   *
    * @return true or false.
    * @see #setSendImmediateReply(Boolean)
    */
@@ -327,12 +346,18 @@ public class SocketConsumer extends AdaptrisMessageConsumerImp {
       AdaptrisMessage msg = defaultIfNull(getMessageFactory()).newMessage(b);
       AdaptrisMessageListener l = retrieveAdaptrisMessageListener();
       if (!sendImmediateReply()) {
-        msg.addObjectHeader(CoreConstants.SOCKET_OBJECT_KEY, sock);
+        msg.addObjectHeader(MetadataConstants.SOCKET_OBJECT_KEY, sock);
       }
       synchronized (l) {
         l.onAdaptrisMessage(msg);
       }
     }
+  }
+
+  @Override
+  protected String newThreadName() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

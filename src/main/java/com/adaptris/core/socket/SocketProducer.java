@@ -1,12 +1,12 @@
 /*
  * Copyright 2015 Adaptris Ltd.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,17 +17,13 @@
 package com.adaptris.core.socket;
 
 import static com.adaptris.core.AdaptrisMessageFactory.defaultIfNull;
-
 import java.net.Socket;
 import java.util.Map;
-
-import org.hibernate.validator.constraints.NotBlank;
-
+import javax.validation.constraints.NotBlank;
 import com.adaptris.annotation.AdapterComponent;
 import com.adaptris.annotation.ComponentProfile;
 import com.adaptris.annotation.DisplayOrder;
 import com.adaptris.core.AdaptrisMessage;
-import com.adaptris.core.CoreConstants;
 import com.adaptris.core.CoreException;
 import com.adaptris.core.ProduceDestination;
 import com.adaptris.core.ProduceException;
@@ -36,10 +32,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * Message Producer implemention for TCP.
- * 
+ *
  * @config socket-producer
- * 
- * 
+ *
+ *
  * @author lchan
  * @author $Author: lchan $
  */
@@ -133,7 +129,9 @@ public class SocketProducer extends RequestReplyProducerImp {
       String host = dest.getDestination(msg);
       Map m = msg.getObjectHeaders();
       // Use the object metadata socket if available.
-      sock = m.containsKey(CoreConstants.SOCKET_OBJECT_KEY) ? (Socket) m.get(CoreConstants.SOCKET_OBJECT_KEY) : retrieveConnection(
+      sock = m.containsKey(MetadataConstants.SOCKET_OBJECT_KEY)
+          ? (Socket) m.get(MetadataConstants.SOCKET_OBJECT_KEY)
+          : retrieveConnection(
           ProduceConnection.class).createSocket(host);
       sock.setSoTimeout(timeout >=0 ? new Long(timeout).intValue() : 0);
       p = (Protocol) Class.forName(protocolImplementation).newInstance();
@@ -152,7 +150,7 @@ public class SocketProducer extends RequestReplyProducerImp {
       throw new ProduceException(e);
     }
     finally {
-      msg.getObjectHeaders().remove(CoreConstants.SOCKET_OBJECT_KEY);
+      msg.getObjectHeaders().remove(MetadataConstants.SOCKET_OBJECT_KEY);
       if (sock != null) {
         try {
           sock.close();

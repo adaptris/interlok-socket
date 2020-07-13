@@ -21,7 +21,6 @@ import static com.adaptris.core.PortManager.release;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import com.adaptris.core.AdaptrisMessage;
-import com.adaptris.core.ConfiguredConsumeDestination;
 import com.adaptris.core.ConfiguredProduceDestination;
 import com.adaptris.core.ConsumerCase;
 import com.adaptris.core.DefaultMessageFactory;
@@ -83,8 +82,6 @@ public class TestSocketConsumer extends ConsumerCase {
 
   private static StandaloneConsumer createConsumer(Integer port) {
     SocketConsumer consumer = new SocketConsumer();
-    ConfiguredConsumeDestination ccd = new ConfiguredConsumeDestination("blah");
-    consumer.setDestination(ccd);
     consumer.setProtocolImplementation(SimpleProtocol.class.getName());
     consumer.setSendImmediateReply(true);
     TcpConsumeConnection consumeConnection = new TcpConsumeConnection();
