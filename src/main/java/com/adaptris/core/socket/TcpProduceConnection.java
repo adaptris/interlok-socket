@@ -49,13 +49,13 @@ public class TcpProduceConnection extends ProduceConnection {
    * @see ProduceConnection#createSocket(java.lang.String)
    */
   @Override
-  public Socket createSocket(String dest)
+  public Socket createSocket(String url)
     throws IOException, UnsupportedOperationException {
-    URLString url = new URLString(dest);
+    URLString urlString = new URLString(url);
     Socket s = null;
-    if ("tcp".equals(url.getProtocol())) {
+    if ("tcp".equals(urlString.getProtocol())) {
       s = new Socket();
-      InetSocketAddress addr = new InetSocketAddress(url.getHost(), url.getPort());
+      InetSocketAddress addr = new InetSocketAddress(urlString.getHost(), urlString.getPort());
       s.connect(addr, getSocketTimeout());
     }
     else {
