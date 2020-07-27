@@ -41,14 +41,14 @@ public abstract class ProduceConnection extends NoOpConnection {
   }
 
   /** Create the socket that will be used by the Producer.
-   *  <p>The destination is expected to be a URL that can be handled by the
+   *  <p>The url is expected to be a valid URL that can be handled by the
    *  concrete implementation of ProduceConnection.
    * @return the socket.
-   * @param dest the destination to produce to.
+   * @param url the url destination to produce to.
    * @throws IOException if there was an error creating a socket, or if the
    * destination was unparseable
    */
-  public abstract Socket createSocket(String dest) throws IOException;
+  public abstract Socket createSocket(String url) throws IOException;
   
   /** Get the configured timeout.
    * 
