@@ -1,28 +1,28 @@
 /*
  * Copyright 2015 Adaptris Ltd.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package com.adaptris.core.socket;
 
 import static com.adaptris.core.PortManager.nextUnusedPort;
 import static com.adaptris.core.PortManager.release;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
 import com.adaptris.core.AdaptrisMessage;
-import com.adaptris.core.ConfiguredConsumeDestination;
-import com.adaptris.core.ConfiguredProduceDestination;
 import com.adaptris.core.ConsumerCase;
 import com.adaptris.core.DefaultMessageFactory;
 import com.adaptris.core.StandaloneConsumer;
@@ -36,7 +36,7 @@ import com.adaptris.core.stubs.MockMessageListener;
 public class TestSocketConsumer extends ConsumerCase {
   /**
    * Key in unit-test.properties that defines where example goes unless overriden {@link #setBaseDir(String)}.
-   * 
+   *
    */
   public static final String BASE_DIR_KEY = "SocketConsumerExamples.baseDir";
 
@@ -68,7 +68,7 @@ public class TestSocketConsumer extends ConsumerCase {
   }
 
   @Test
-  public void testBasicSendReciver() throws Exception {
+  public void testBasicSendReceiver() throws Exception {
     Integer port = nextUnusedPort(19000);
     MockMessageListener stub = new MockMessageListener();
     StandaloneConsumer consumer = createConsumer(port);
@@ -83,8 +83,6 @@ public class TestSocketConsumer extends ConsumerCase {
 
   private static StandaloneConsumer createConsumer(Integer port) {
     SocketConsumer consumer = new SocketConsumer();
-    ConfiguredConsumeDestination ccd = new ConfiguredConsumeDestination("blah");
-    consumer.setDestination(ccd);
     consumer.setProtocolImplementation(SimpleProtocol.class.getName());
     consumer.setSendImmediateReply(true);
     TcpConsumeConnection consumeConnection = new TcpConsumeConnection();
@@ -95,8 +93,7 @@ public class TestSocketConsumer extends ConsumerCase {
 
   private static StandaloneProducer createProducer(Integer port) {
     SocketProducer producer = new SocketProducer();
-    ConfiguredProduceDestination ccd = new ConfiguredProduceDestination("tcp://localhost:" + port);
-    producer.setDestination(ccd);
+    producer.setUrl("tcp://localhost:" + port);
     producer.setProtocolImplementation(SimpleProtocol.class.getName());
     return new StandaloneProducer(new TcpProduceConnection(), producer);
   }

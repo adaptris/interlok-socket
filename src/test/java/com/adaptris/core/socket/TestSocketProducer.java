@@ -16,11 +16,8 @@
 
 package com.adaptris.core.socket;
 
-import com.adaptris.core.ConfiguredProduceDestination;
 import com.adaptris.core.ProducerCase;
 import com.adaptris.core.StandaloneProducer;
-import com.adaptris.core.socket.SocketProducer;
-import com.adaptris.core.socket.TcpProduceConnection;
 
 /**
  * @author lchan
@@ -45,7 +42,7 @@ public class TestSocketProducer extends ProducerCase {
   protected Object retrieveObjectForSampleConfig() {
     TcpProduceConnection tcp = new TcpProduceConnection();
     SocketProducer producer = new SocketProducer();
-    producer.setDestination(new ConfiguredProduceDestination("tcp://localhost:9099"));
+    producer.setUrl("tcp://localhost:9099");
     producer
         .setProtocolImplementation("my.implementation.of.com.adaptris.core."
             + "socket.Protocol");
